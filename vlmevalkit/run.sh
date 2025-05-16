@@ -1,0 +1,2 @@
+python -m torch.distributed.run --nproc-per-node=8 run.py --judge gpt-4o-1120 --config configs/video_reasoning_bench_qwen2.5-vl-7b.json --reuse        # 7B-scale model
+# AUTO_SPLIT=1 python -m torch.distributed.run --nproc-per-node=1 run.py --judge gpt-4o-1120 --config configs/video_reasoning_bench_qwen2.5-vl-7b.json  # 72B-scale model

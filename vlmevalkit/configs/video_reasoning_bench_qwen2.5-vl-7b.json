@@ -1,0 +1,18 @@
+{
+    "model": {
+        "Qwen2.5-VL-7B-Instruct": {
+            "class": "Qwen2VLChat",
+            "model_path": "Qwen/Qwen2.5-VL-7B-Instruct",
+            "min_pixels": 50176,
+            "max_pixels": 200704,
+            "max_new_tokens": 4096
+        }
+    },
+    "data": {
+        "VideoReasoningBench_32frame": {
+            "class": "VideoReasoningBench",
+            "dataset": "VideoReasoningBench",
+            "nframe": 32
+        }
+    }
+}
