@@ -1,7 +1,9 @@
-import copy, re, openai, os
+import copy, re, openai, os, time
 import numpy as np
 import warnings
 from openai import OpenAI
+from google import genai
+from google.genai import types
 
 def get_judge_prompt(question, response, ground_truth):
     judge_prompt = f"""You will be given a question, a model response and a ground-truth answer. Your task is to determine whether the model response is correct based on the ground-truth answer. The model response should contain all information in the ground-truth answer.
@@ -52,6 +54,68 @@ def llm_judge_hf(question, response, ground_truth, judge_model, tokenizer, think
     ]
     output_text = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
     return output_text == "Correct"
+
+def test_chat_completion_gemini(model, question, video_path, max_new_tokens=1024, max_try=5, temperature=0., thinking_budget=8192):
+    api_key=os.environ.get("GEMINI_API_KEY")
+    assert api_key, "Please set GEMINI_API_KEY in environment!"
+    client = genai.Client(
+        api_key=api_key,
+    )
+    max_try_upload = 5
+    while True:
+        try:
+            print("Uploading file...")
+            video_file = client.files.upload(file=video_path)
+            print(f"Completed upload: {video_file.uri}")
+
+            # Check whether the file is ready to be used.
+            while video_file.state.name == "PROCESSING":
+                print('.', end='')
+                time.sleep(1)
+                video_file = client.files.get(name=video_file.name)
+            break
+        except Exception as e:
+            print(f"Error during file upload: {e}, {max_try_upload} retries remaining...")
+            dr = client.files.delete(name=video_file.name)
+            max_try_upload -= 1
+            if max_try_upload <= 0:
+                return "", None
+            time.sleep(10)
+    if video_file.state.name == "FAILED":
+        raise ValueError(video_file.state.name)
+    print('Done')
+    contents = [video_file, question]
+
+    generate_content_config = types.GenerateContentConfig(
+        temperature=temperature,
+        top_p=None,
+        top_k=None,
+        max_output_tokens=max_new_tokens,
+        response_mime_type="text/plain",
+        thinking_config=None if model=="gemini-2.0-flash" else types.ThinkingConfig(thinking_budget=thinking_budget)
+    )
+
+    while True:
+        try:
+            response = client.models.generate_content(
+                model=model,
+                contents=contents,
+                config=generate_content_config
+            )
+            print(response)
+            token_count = {"candidates_token_count": response.usage_metadata.candidates_token_count, \
+                                    "prompt_token_count": response.usage_metadata.prompt_token_count, \
+                                    "thoughts_token_count": response.usage_metadata.thoughts_token_count , \
+                                    "total_token_count": response.usage_metadata.total_token_count}
+            return response.text, token_count
+
+        except Exception as e:
+            print(f"Error during generate_content: {e}")
+            max_try -= 1
+            if max_try <= 0:
+                return "", None
+            print(f"Exception occurred. {max_try} retries remaining...")
+            time.sleep(10)
 
 def test_chat_completion_openai(model, contents, max_tokens=1024, max_try=5, temperature=0.):
 

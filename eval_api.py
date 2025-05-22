@@ -108,7 +108,7 @@ def load_video(video_file, long_edge, max_num_frames=128, target_fps=1.0):
 
     return imgs, frame_timestamps
 
-def get_video_contents(video_path, question, input_mode, max_img_size=448, max_num_frames=128, target_fps=1.0, add_timestamp=False):
+def get_video_contents(video_path, question, max_img_size=448, max_num_frames=128, target_fps=1.0, add_timestamp=False):
     contents = []
     frames, frame_timestamps = load_video(video_path, max_img_size, max_num_frames, target_fps)
 
@@ -140,15 +140,14 @@ def get_video_contents(video_path, question, input_mode, max_img_size=448, max_n
     return contents
 
 
-def inference(model, video_path, question, input_mode, api_type, max_num_frames=128, target_fps=1.0, resolution=448, max_tokens=2048, temperature=0.):
-    contents = get_video_contents(video_path, question, input_mode, \
-                                    max_img_size=resolution, max_num_frames=max_num_frames, target_fps=target_fps,
-                                    add_timestamp=True if 'timestamp' in input_mode else False)
+def inference(model, video_path, question, api_type, max_num_frames=128, target_fps=1.0, resolution=448, max_tokens=2048, temperature=0., thinking_budget=8192):
+    contents = get_video_contents(video_path, question, \
+                                    max_img_size=resolution, max_num_frames=max_num_frames, target_fps=target_fps)
 
     if api_type=="openai":
         response, token_count = test_chat_completion_openai(model, contents, max_tokens, temperature)
     elif api_type=="gemini":
-        response, token_count = test_chat_completion_gemini(model, contents, max_tokens, temperature)
+        response, token_count = test_chat_completion_gemini(model, question, video_path, max_new_tokens=max_tokens, temperature=temperature, thinking_budget=thinking_budget)
     return response, token_count
 
 def evaluate(question, response, ground_truth, judge_model, judge_tokenizer):
@@ -206,19 +205,19 @@ def str2bool(s):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()     
-    parser.add_argument('--model_name', default='gpt-4o-2024-11-20')
+    parser.add_argument('--model_name', default='gemini-2.0-flash')
     parser.add_argument('--judge_model_name', default='gpt-4o-2024-11-20')
     parser.add_argument('--judge_implement', default='api')
     parser.add_argument('--question_path', default="questions")
     parser.add_argument('--result_path', default="predictions")
     parser.add_argument('--result_prefix', default="")
-    parser.add_argument('--api_type', default="openai", choices=["openai", "gemini"])
-    parser.add_argument('--input_mode', default="frame")
+    parser.add_argument('--api_type', default="gemini", choices=["openai", "gemini"], help="api for the inference model")
     parser.add_argument('--resolution', default=448, type=int)
     parser.add_argument('--max_num_frames', default=128, type=int)
     parser.add_argument('--target_fps', default=1.0, type=float)
     parser.add_argument('--max_new_token', default=2048, type=int)
     parser.add_argument('--temperature', default=0, type=float)
+    parser.add_argument('--thinking_budget', default=8192, type=int)
     parser.add_argument('--num_chunks', default=1, type=int)
     parser.add_argument('--chunk_idx', default=0, type=int)
     args = parser.parse_args()
@@ -241,7 +240,7 @@ if __name__ == '__main__':
         if id not in results or not results[id]['prediction']:
             results[id] = d
         if "prediction" not in results[id]:
-            results[id]["prediction"], results[id]["token_count"] = inference(args.model_name, d["video"], d["question"], args.input_mode, args.api_type, max_num_frames=args.max_num_frames, target_fps=args.target_fps, resolution=args.resolution, max_tokens=args.max_new_token, temperature=args.temperature)
+            results[id]["prediction"], results[id]["token_count"] = inference(args.model_name, d["video"], d["question"], args.api_type, max_num_frames=args.max_num_frames, target_fps=args.target_fps, resolution=args.resolution, max_tokens=args.max_new_token, temperature=args.temperature, thinking_budget=args.thinking_budget)
         if "rating" not in results[id]:
             if d["answer"]:
                 results[id]["rating"] = evaluate(results[id]['question'], results[id]["prediction"], d["answer"], judge_model, judge_tokenizer)

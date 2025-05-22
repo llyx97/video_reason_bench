@@ -18,12 +18,14 @@ def show_result(results):
                 'num_op_5_9': [0,0], 'num_op_10_14': [0, 0], \
                 'state_1': [0, 0], 'state_2': [0, 0], \
                 'order_operation': [0, 0], 'counting_operation': [0, 0], 'infer_state': [0, 0], 'comparison_state': [0, 0], 'prediction_state': [0, 0], 'prediction_operation': [0, 0], \
-                'candidates_token_count': 0}
+                'candidates_token_count': 0, 'thoughts_token_count': 0}
 
     for id, r in results.items():
         summary['overall'][0] += int(r['rating'])
         summary['overall'][1] += 1
-        summary['candidates_token_count'] += r['token_count']['completion_tokens']
+        summary['candidates_token_count'] += r['token_count']['candidates_token_count'] if 'candidates_token_count' in r['token_count'] else r['token_count']['completion_tokens']
+        if 'thoughts_token_count' in r['token_count'] and r['token_count']['thoughts_token_count']:
+            summary['thoughts_token_count'] += r['token_count']['thoughts_token_count']
             
         state_key = f"state_{state_size_map[int(r['num_state'])]}"
         assert state_key in summary
