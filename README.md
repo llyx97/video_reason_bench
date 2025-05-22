@@ -1,5 +1,25 @@
 # VideoReasonBench
 
+## Direct Evaluation
+
+### Step 1: Setup
+
+**Installation**
+```
+pip install google-genai==1.12.0
+pip install openai==1.64.0
+pip install transformers
+```
+
+**Setup Keys**
+Set the environment variables `GEMINI_API_KEY`, `OPENAI_API_KEY` and `OPENAI_API_BASE`.
+
+### Step 2: Evaluation
+```
+bash eval_gemini.sh     # evaluate gemini series models
+bash eval_openai.sh        # evaluate openai models
+```
+
 ## Evaluation using VLMEvalKit
 
 ### Step 1: Setup
