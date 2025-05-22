@@ -1,5 +1,5 @@
 model_name=gemini-2.5-flash-preview-04-17
-judge_model_name=gpt-4o-2024-11-20
+judge_model_name=gpt-4o-2024-11-20  # gpt-4o-2024-11-20 or Qwen/Qwen2.5-72B-Instruct
 judge_implement=api     # api or huggingface
 api_type=gemini         # openai or gemini
 result_path="predictions/${model_name}"
@@ -9,7 +9,7 @@ resolution=448
 max_new_token=65536
 thinking_budget=8192
 temperature=0.0
-num_proc=1
+num_proc=4
 
 if [ "$model_name" = "gemini-2.0-flash" ]; then
     thinking_budget=0
@@ -22,7 +22,7 @@ elif [ "$api_type" = "gemini" ]; then
 fi
 
 for IDX in $(seq 0 $(($num_proc-1))); do
-    python3 eval_api.py \
+    CUDA_VISIBLE_DEVICES=$IDX python3 eval_api.py \
         --model_name $model_name \
         --judge_model_name $judge_model_name \
         --judge_implement $judge_implement \

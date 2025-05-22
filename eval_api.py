@@ -41,20 +41,6 @@ def get_chunk(lst, n, k):
     chunks = split_list(lst, n)
     return chunks[k]
 
-def build_judge(model_name, implementation="api"):
-    assert implementation in ['api', 'huggingface']
-    if implementation=='huggingface':
-        model = AutoModelForCausalLM.from_pretrained(
-            model_path,
-            torch_dtype="auto",
-            attn_implementation="flash_attention_2",
-            device_map="auto"
-        )
-        tokenizer = AutoTokenizer.from_pretrained(model_path)
-    elif implementation=='api':
-        model = model_name
-        tokenizer = None
-    return model, tokenizer
 
 def encode_image_to_base64(image_bytes):
     return base64.b64encode(image_bytes).decode()
@@ -224,7 +210,7 @@ if __name__ == '__main__':
 
     random.seed(42)
 
-    result_path = osp.join(args.result_path, f"{args.result_prefix}.json")
+    result_path = osp.join(args.result_path, f"{args.result_prefix}_{args.chunk_idx}.json")
     os.makedirs(osp.dirname(result_path), exist_ok=True)
 
     results = load_json(result_path) if osp.exists(result_path) else {}

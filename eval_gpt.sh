@@ -1,5 +1,5 @@
 model_name=gpt-4o-2024-11-20
-judge_model_name=gpt-4o-2024-11-20
+judge_model_name=gpt-4o-2024-11-20  # gpt-4o-2024-11-20 or Qwen/Qwen2.5-72B-Instruct
 judge_implement=api     # api or huggingface
 api_type=openai         # openai or gemini
 result_path="predictions/${model_name}"

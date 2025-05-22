@@ -4,6 +4,22 @@ import warnings
 from openai import OpenAI
 from google import genai
 from google.genai import types
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+def build_judge(model_name, implementation="api"):
+    assert implementation in ['api', 'huggingface']
+    if implementation=='huggingface':
+        model = AutoModelForCausalLM.from_pretrained(
+            model_name,
+            torch_dtype="auto",
+            attn_implementation="flash_attention_2",
+            device_map="auto"
+        )
+        tokenizer = AutoTokenizer.from_pretrained(model_name)
+    elif implementation=='api':
+        model = model_name
+        tokenizer = None
+    return model, tokenizer
 
 def get_judge_prompt(question, response, ground_truth):
     judge_prompt = f"""You will be given a question, a model response and a ground-truth answer. Your task is to determine whether the model response is correct based on the ground-truth answer. The model response should contain all information in the ground-truth answer.
@@ -28,32 +44,12 @@ def llm_judge_api(question, response, ground_truth, judge_model):
 
     return judge_response == "Correct"
 
-def llm_judge_hf(question, response, ground_truth, judge_model, tokenizer, think_tok="◁/think▷"):
-    response = response.split(think_tok)[1] if think_tok in response else response
+def llm_judge_hf(question, response, ground_truth, judge_model, tokenizer):
     judge_prompt = get_judge_prompt(question, response, ground_truth)
 
-    messages = [
-        {"role": "system", "content": "You are Qwen, created by Alibaba Cloud. You are a helpful assistant."},
-        {"role": "user", "content": judge_prompt}
-    ]
-    text = tokenizer.apply_chat_template(
-        messages,
-        tokenize=False,
-        add_generation_prompt=True
-    )
-    model_inputs = tokenizer([text], return_tensors="pt").to(judge_model.device)
+    judge_response = test_chat_completion_hf(judge_model, judge_prompt, tokenizer, max_tokens=4)
 
-    generated_ids = judge_model.generate(
-        **model_inputs,
-        max_new_tokens=4,
-        temperature=0.,
-        do_sample=False
-    )
-    generated_ids = [
-        output_ids[len(input_ids):] for input_ids, output_ids in zip(model_inputs.input_ids, generated_ids)
-    ]
-    output_text = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
-    return output_text == "Correct"
+    return judge_response == "Correct"
 
 def test_chat_completion_gemini(model, question, video_path, max_new_tokens=1024, max_try=5, temperature=0., thinking_budget=8192):
     api_key=os.environ.get("GEMINI_API_KEY")
@@ -116,6 +112,30 @@ def test_chat_completion_gemini(model, question, video_path, max_new_tokens=1024
                 return "", None
             print(f"Exception occurred. {max_try} retries remaining...")
             time.sleep(10)
+
+def test_chat_completion_hf(model, prompt, tokenizer, max_tokens=1024):
+    messages = [
+        {"role": "system", "content": "You are Qwen, created by Alibaba Cloud. You are a helpful assistant."},
+        {"role": "user", "content": prompt}
+    ]
+    text = tokenizer.apply_chat_template(
+        messages,
+        tokenize=False,
+        add_generation_prompt=True
+    )
+    model_inputs = tokenizer([text], return_tensors="pt").to(model.device)
+
+    generated_ids = model.generate(
+        **model_inputs,
+        max_new_tokens=max_tokens,
+        temperature=0.,
+        do_sample=False
+    )
+    generated_ids = [
+        output_ids[len(input_ids):] for input_ids, output_ids in zip(model_inputs.input_ids, generated_ids)
+    ]
+    output_text = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
+    return output_text
 
 def test_chat_completion_openai(model, contents, max_tokens=1024, max_try=5, temperature=0.):
 
