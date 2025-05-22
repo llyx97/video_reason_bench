@@ -15,7 +15,13 @@ pip install transformers
 
 Set the environment variables `GEMINI_API_KEY`, `OPENAI_API_KEY` and `OPENAI_API_BASE`.
 
-### Step 2: Evaluation
+### Step 2: Download Videos
+```
+wget https://huggingface.co/datasets/lyx97/reasoning_videos/resolve/main/videos.zip
+unzip videos.zip
+```
+
+### Step 3: Evaluation
 ```
 bash eval_gemini.sh     # evaluate gemini series models
 bash eval_openai.sh        # evaluate openai models
