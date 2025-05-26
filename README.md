@@ -12,14 +12,19 @@
 </p>
 
 
-## ✨ Highlights
+## ✨ Highlight
 ![](./assets/bench_compare.png)
 ![](./assets/think_budget.jpeg)
 
 
-## Direct Evaluation
+## Overview
+![](./assets/overview.png)
 
-### Step 1: Setup
+## 🚀 Quick Start
+
+### Direct Evaluation
+
+#### Step 1: Setup
 
 **Installation**
 ```
@@ -32,21 +37,21 @@ pip install transformers
 
 Set the environment variables `GEMINI_API_KEY`, `OPENAI_API_KEY` and `OPENAI_API_BASE`.
 
-### Step 2: Download Videos
+#### Step 2: Download Videos
 ```
 wget https://huggingface.co/datasets/lyx97/reasoning_videos/resolve/main/videos.zip
 unzip videos.zip
 ```
 
-### Step 3: Evaluation
+#### Step 3: Evaluation
 ```
 bash eval_gemini.sh     # evaluate gemini series models
 bash eval_openai.sh        # evaluate openai models
 ```
 
-## Evaluation using VLMEvalKit
+### Evaluation using VLMEvalKit
 
-### Step 1: Setup
+#### Step 1: Setup
 
 **Installation**
 ```
@@ -59,7 +64,7 @@ pip install -e .
 Place the required keys in `vlmevalkit/.env` or directly set them as the environment variable.
 
 
-### Step 2: Configuration
+#### Step 2: Configuration
 Setup the model and dataset configuration in `vlmevalkit/configs/{your_config}.json`. For example:
 ```python
 {
@@ -82,7 +87,7 @@ Setup the model and dataset configuration in `vlmevalkit/configs/{your_config}.j
 }
 ```
 
-### Step 3: Evaluation
+#### Step 3: Evaluation
 ```bash
 torchrun --nproc-per-node=8 run.py --judge gpt-4o-1120 --config configs/video_reasoning_bench_qwen2.5-vl-7b.json --reuse        # 7B-scale model
 AUTO_SPLIT=1 torchrun --nproc-per-node=1 run.py --judge gpt-4o-1120 --config configs/video_reasoning_bench_qwen2.5-vl-72b.json  # 72B-scale model
