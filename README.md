@@ -19,6 +19,20 @@
 
 ## Overview
 ![](./assets/overview.png)
+### Videos
+Each video involves a latent state and a sequence of operations. The latent state is revealed either at the start or the end of video and the operations cause state transistions. There are six types of video demonstrations:
+- **Number**: Sliding number puzzle.
+- **Circle**: A red circle moving on grid, flipping the color of black and white pieces.
+- **Cup**: Swapping cups and the content beneath.
+- **File**: Creating, deleting, copying, and moving files within/between paths.
+- **Card**: Adding or removing cards to/from piles.
+- **Chip**: Adding or removing chips to/from cups.
+
+### Questions
+The questions assess video reasoning skills across three levels:
+- **Level 1 (Recall)**: Precisely recalling the sequential visual observations from the video.
+- **Level 2 (Infer)**: Infer latent information that is not directly observable from the video.
+- **Level 3 (Predict)**: Predict new information beyond the video.
 
 ## 🚀 Quick Start
 
@@ -92,3 +106,15 @@ Setup the model and dataset configuration in `vlmevalkit/configs/{your_config}.j
 torchrun --nproc-per-node=8 run.py --judge gpt-4o-1120 --config configs/video_reasoning_bench_qwen2.5-vl-7b.json --reuse        # 7B-scale model
 AUTO_SPLIT=1 torchrun --nproc-per-node=1 run.py --judge gpt-4o-1120 --config configs/video_reasoning_bench_qwen2.5-vl-72b.json  # 72B-scale model
 ```
+
+## 📊 Evaluation Results
+### Main Results
+![](./assets/main_results.jpeg)
+- Current MLLMs struggle with vision-centric complex video reasoning.
+- VideoReasonBench poses substantial challenges—even for humans.
+- Thinking is critical for performance on VideoReasonBench.
+- Reasoning difficulty increases from Level 1 to Level 3.
+
+### Results of Gemini-2.5-Flash with different visual inputs
+![](./assets/result_visual_input.jpeg)
+- VideoReasonBench demands a higher degree of vision reliance than current video understanding benchmarks.
