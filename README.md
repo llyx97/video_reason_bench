@@ -1,5 +1,18 @@
 # VideoReasonBench
 
+<p align="center">
+  <h1 style="display: inline;">
+    <img src="./assets/logo.png" alt="Logo" style="width: 50px; vertical-align: middle; margin-right: 10px;">
+    VideoReasonBench: Can MLLMs Perform Vision-Centric Complex Video Reasoning?
+  </h1>
+</p>
+
+<p align="center">
+  <a href="https://github.com/llyx97/video_reason_bench"><img src="https://img.shields.io/badge/🎓-Website-red" height="23"></a>
+  <a href="https://github.com/llyx97/video_reason_bench"><img src="https://img.shields.io/badge/📝-Paper-blue" height="23"></a>
+  <a href="https://huggingface.co/datasets/lyx97/reasoning_videos"><img src="https://img.shields.io/badge/🤗-Dataset-yellow" height="23"></a>
+</p>
+
 ## Direct Evaluation
 
 ### Step 1: Setup
