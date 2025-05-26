@@ -13,6 +13,16 @@
 
 
 ## ✨ Highlight
+**Complex Reasoning**
+- Gemini-2.5-Flash achieves over 65% accuracy on standard benchmarks but drops to just 27.4% on VideoReasonBench.
+- On average, it consumes over 7,000 tokens to arrive at an answer.
+
+**Thinking-Reliant**
+- VideoReasonBench performance shows stronger correlation with the thinking budget, compared with existing benchmarks.
+
+**Vision-Centric Reasoning**
+- The reasoning process is deeply grounded in the video content.
+
 ![](./assets/bench_compare.png)
 ![](./assets/think_budget.jpeg)
 
@@ -109,12 +119,12 @@ AUTO_SPLIT=1 torchrun --nproc-per-node=1 run.py --judge gpt-4o-1120 --config con
 
 ## 📊 Evaluation Results
 ### Main Results
-![](./assets/main_results.jpeg)
 - Current MLLMs struggle with vision-centric complex video reasoning.
 - VideoReasonBench poses substantial challenges—even for humans.
 - Thinking is critical for performance on VideoReasonBench.
 - Reasoning difficulty increases from Level 1 to Level 3.
+![](./assets/main_results.jpeg)
 
 ### Results of Gemini-2.5-Flash with different visual inputs
+- VideoReasonBench demands a higher degree of vision reliance (**vision-centric**) than current video understanding benchmarks.
 ![](./assets/result_visual_input.jpeg)
-- VideoReasonBench demands a higher degree of vision reliance than current video understanding benchmarks.
