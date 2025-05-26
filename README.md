@@ -26,8 +26,9 @@
 - The reasoning process is deeply grounded in the video content.
 
 
-## Overview
+## 👉 Overview
 ![](./assets/overview.png)
+![](./assets/statistics.png)
 ### Videos
 Each video involves a latent state and a sequence of operations. The latent state is revealed either at the start or the end of video and the operations cause state transistions. There are six types of video demonstrations:
 - **Number**: Sliding number puzzle.
