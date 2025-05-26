@@ -13,6 +13,8 @@
 
 
 ## ✨ Highlight
+![](./assets/bench_compare.png)
+![](./assets/think_budget.jpeg)
 **Complex Reasoning**
 - Gemini-2.5-Flash achieves over 65% accuracy on standard benchmarks but drops to just 27.4% on VideoReasonBench.
 - On average, it consumes over 7,000 tokens to arrive at an answer.
@@ -22,9 +24,6 @@
 
 **Vision-Centric Reasoning**
 - The reasoning process is deeply grounded in the video content.
-
-![](./assets/bench_compare.png)
-![](./assets/think_budget.jpeg)
 
 
 ## Overview
