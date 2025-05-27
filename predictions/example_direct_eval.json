@@ -1,0 +1,38 @@
+{
+    "card_state1_op5_order_operation_start": {
+        "video": "videos/card/state1_op5_start.mp4",
+        "question": "The video showcases a sequence of operations involving one or more piles of cards. It begins by displaying the initial arrangement of cards in each pile from top to bottom. The cards are then turned face down, after which a series of actions is carried out. Note that there are only two types of actions: adding one card to the top of the pile or removing one card from the bottom of the pile.\nPlease carefully watch the video and answer the following question:\n\nWhat are the 1st to 3rd cards being added to any pile throughout the video? For each card, provide the following details:\n1. The order (e.g., 1st or 2nd)\n2. The suit and value (e.g., 6 of Hearts)\n3. The pile involved (e.g., pile0, pile1)\nFormat your response like this:\n1st: 6 of Hearts, pile0\n2nd: Jack of Spades, pile1.\n\nProvide a summary of the final answer after 'Final Answer:'",
+        "answer": "1st: Queen of Clubs, pile0\n2nd: Ace of Hearts, pile0\n3rd: Jack of Diamonds, pile0",
+        "dim": "order_operation",
+        "num_state": 1,
+        "num_operation": 5,
+        "visible_time": "start",
+        "demo": "card",
+        "prediction": "Here are the first 3 cards being added to the pile(s) throughout the video:\n1st: Queen of Clubs, pile0\n2nd: Ace of Hearts, pile0\n3rd: Jack of Diamonds, pile0\n\nFinal Answer:\n1st: Queen of Clubs, pile0\n2nd: Ace of Hearts, pile0\n3rd: Jack of Diamonds, pile0",
+        "token_count": {
+            "candidates_token_count": 83,
+            "prompt_token_count": 14157,
+            "thoughts_token_count": 1653,
+            "total_token_count": 15893
+        },
+        "rating": true
+    },
+    "card_state1_op5_order_state_start": {
+        "video": "videos/card/state1_op5_start.mp4",
+        "question": "The video showcases a sequence of operations involving one or more piles of cards. It begins by displaying the initial arrangement of cards in each pile from top to bottom. The cards are then turned face down, after which a series of actions is carried out. Note that there are only two types of actions: adding one card to the top of the pile or removing one card from the bottom of the pile.\nPlease carefully watch the video and answer the following question:\n\nAt the end of the video, what cards are in `pile0`? List them in order from top to bottom, including both the value and suit of each card.\nFormat your response like this:\n6 of Hearts, King of Clubs, 3 of Spades.\n\nProvide a summary of the final answer after 'Final Answer:'",
+        "answer": "Jack of Clubs, Jack of Diamonds, Ace of Hearts, Queen of Clubs, King of Diamonds, 8 of Diamonds, 3 of Diamonds, 8 of Clubs",
+        "dim": "order_state",
+        "num_state": 1,
+        "num_operation": 5,
+        "visible_time": "start",
+        "demo": "card",
+        "prediction": "At the end of the video, the cards in `pile0`, from top to bottom, are:\nJack of Clubs, Jack of Diamonds, Ace of Hearts, Queen of Clubs, King of Diamonds, 8 of Diamonds, 3 of Spades.\n\nFinal Answer: Jack of Clubs, Jack of Diamonds, Ace of Hearts, Queen of Clubs, King of Diamonds, 8 of Diamonds, 3 of Spades",
+        "token_count": {
+            "candidates_token_count": 87,
+            "prompt_token_count": 14103,
+            "thoughts_token_count": 1414,
+            "total_token_count": 15604
+        },
+        "rating": false
+    }
+}
