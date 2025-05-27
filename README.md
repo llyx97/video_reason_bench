@@ -88,6 +88,8 @@ bash eval_gemini.sh     # evaluate gemini series models
 bash eval_openai.sh        # evaluate openai models
 ```
 
+An example of evaluation result can be found [here](https://github.com/llyx97/video_reason_bench/blob/main/predictions/example_direct_eval.json).
+
 ### Evaluation using VLMEvalKit
 
 #### Step 1: Setup
@@ -131,6 +133,8 @@ Setup the model and dataset configuration in `vlmevalkit/configs/{your_config}.j
 torchrun --nproc-per-node=8 run.py --judge gpt-4o-1120 --config configs/video_reasoning_bench_qwen2.5-vl-7b.json --reuse        # 7B-scale model
 AUTO_SPLIT=1 torchrun --nproc-per-node=1 run.py --judge gpt-4o-1120 --config configs/video_reasoning_bench_qwen2.5-vl-72b.json  # 72B-scale model
 ```
+
+An example of evaluation result can be found [here](https://github.com/llyx97/video_reason_bench/blob/main/predictions/example_vlmevalkit.xlsx).
 
 ## 📊 Evaluation Results
 ### Main Results
