@@ -45,7 +45,7 @@
 ![](./assets/overview.png)
 ![](./assets/statistics.png)
 ### Videos
-Each video involves a latent state and a sequence of operations. The latent state is revealed either at the start or the end of video and the operations cause state transistions. There are six types of video demonstrations:
+Each video features a latent state and a sequence of operations. The latent state is revealed either at the beginning or the end of the video. Throughout the rest of the video, the latent state remains invisible while the operations drive state transitions. There are six types of video demonstrations:
 - **Number**: Sliding number puzzle.
 - **Circle**: A red circle moving on grid, flipping the color of black and white pieces.
 - **Cup**: Swapping cups and the content beneath.
