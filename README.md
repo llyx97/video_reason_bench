@@ -84,8 +84,9 @@ unzip videos.zip
 
 #### Step 3: Evaluation
 ```
-bash eval_gemini.sh     # evaluate gemini series models
+bash eval_gemini.sh        # evaluate gemini series models
 bash eval_openai.sh        # evaluate openai models
+bash eval_qwen.sh          # evaluate qwen2.5-vl models
 ```
 
 An example of evaluation result can be found [here](https://github.com/llyx97/video_reason_bench/blob/main/predictions/example_direct_eval.json).
