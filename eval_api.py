@@ -233,7 +233,7 @@ if __name__ == '__main__':
             else:
                 results[id]["rating"] = evaluate_operation(results[id]["prediction"], d, judge_model, judge_tokenizer, args.judge_implement)
 
-        for k in ["states", "moves", "coords", "commands"]:
+        for k in ["states", "moves", "coords", "commands", "actions"]:
             if k in results[id]:
                 results[id].pop(k)
 
