@@ -7,7 +7,7 @@
 
 <p align="center">
   <a href="https://llyx97.github.io/video_reason_bench/"><img src="https://img.shields.io/badge/🎓-Project Page-red" height="23"></a>
-  <a href="https://github.com/llyx97/video_reason_bench"><img src="https://img.shields.io/badge/📝-Paper(coming soon)-blue" height="23"></a>
+  <a href="https://arxiv.org/pdf/2505.23359"><img src="https://img.shields.io/badge/📝-Paper-blue" height="23"></a>
   <a href="https://huggingface.co/datasets/lyx97/reasoning_videos"><img src="https://img.shields.io/badge/🤗-Dataset-yellow" height="23"></a>
 </p>
 
