@@ -4,6 +4,7 @@ from PIL import Image, ImageOps
 import numpy as np
 import re
 import copy
+import warnings
 
 def save_json(data, path):
     with open(path, 'w') as f:
@@ -140,7 +141,7 @@ def get_next_board_cup(move, board):
     return new_board
 
 def get_next_files(commands, all_states, tgt_path):
-    states = {s: set(list(all_states[s].values())[-1]) for s in all_states}
+    states = {s: set(all_states[s][-1]) for s in all_states}
     path_pattern = r'path\d+'
     for cmd in commands:
         files = set(re.search(r'\{([^}]+)\}', cmd).group(1).split(','))
@@ -157,8 +158,8 @@ def get_next_files(commands, all_states, tgt_path):
             states[paths[0]] = states[paths[0]] - files
             states[paths[1]] = states[paths[1]] | files
         for s in all_states:
-            all_states[s][cmd] = copy.deepcopy(states[s])
-    pred_files = list(all_states[tgt_path].values())[-1]
+            all_states[s].append(copy.deepcopy(states[s]))
+    pred_files = all_states[tgt_path][-1]
     return pred_files
 
 def extract_move_hrd(response, model):
@@ -558,7 +559,7 @@ def evaluate_operation(response, data, judge_model):
         return eval_op_cup(response, data['question'], \
                             data['states'][0 if data['visible_time']=='end' else -1], judge_model)
     elif data['demo'] == "file_sys":
-        states = {key: dict([list(data['states'][key].items())[0 if data['visible_time']=="end" else -1]]) for key in [f"path{i}" for i in range(int(data['num_state']))]}
+        states = {key: [data['states'][key][0 if data['visible_time']=="end" else -1]] for key in [f"path{i}" for i in range(int(data['num_state']))]}
         return eval_op_file(response, data['question'], \
                             states, judge_model)
     elif data['demo'] == "card":
