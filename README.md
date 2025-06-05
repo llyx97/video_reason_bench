@@ -148,3 +148,13 @@ An example of evaluation result can be found [here](https://github.com/llyx97/vi
 ### Results of Gemini-2.5-Flash with different visual inputs
 - VideoReasonBench demands a higher degree of vision reliance (**vision-centric**) than current video understanding benchmarks.
 ![](./assets/result_visual_input.jpeg)
+
+## Citation
+```bibtex
+@article{liu2024tempcompass,
+  title   = {VideoReasonBench: Can MLLMs Perform Vision-Centric Complex Video Reasoning?},
+  author  = {Yuanxin Liu, Kun Ouyang, Haoning Wu, Yi Liu, Lin Sui, Xinhao Li, Yan Zhong, Y. Charles, Xinyu Zhou, Xu Sun},
+  year    = {2025},
+  journal = {arXiv preprint arXiv: 2505.23359}
+}
+```
