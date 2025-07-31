@@ -5,6 +5,7 @@ import numpy as np
 import re
 import copy
 import warnings
+from collections import Counter
 
 def save_json(data, path):
     with open(path, 'w') as f:
@@ -539,7 +540,7 @@ def eval_op_chip(response, question, src_states, model_path):
                 return False, f"Invalid Operations: {response}"
             states[cup].remove(chip)
         
-    return set(states[tgt_cup]) == set(tgt_chips), str(moves)
+    return Counter(states[tgt_cup]) == Counter(tgt_chips), str(moves)
 
 def evaluate_operation(response, data, judge_model):
     """
