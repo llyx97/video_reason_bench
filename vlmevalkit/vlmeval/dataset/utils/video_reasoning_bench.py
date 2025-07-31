@@ -146,6 +146,9 @@ def get_next_files(commands, all_states, tgt_path):
     for cmd in commands:
         files = set(re.search(r'\{([^}]+)\}', cmd).group(1).split(','))
         paths = re.findall(path_pattern, cmd)
+        if not all([p in states for p in paths]):
+            print(f"Invalid paths in command: {cmd}")
+            continue
         if cmd.startswith('rm'):
             states[paths[0]] = states[paths[0]] - files
         elif cmd.startswith('touch'):
@@ -536,7 +539,7 @@ def eval_op_chip(response, question, src_states, model_path):
                 return False, f"Invalid Operations: {response}"
             states[cup].remove(chip)
         
-    return states[tgt_cup] == tgt_chips, str(moves)
+    return set(states[tgt_cup]) == set(tgt_chips), str(moves)
 
 def evaluate_operation(response, data, judge_model):
     """
