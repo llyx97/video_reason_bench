@@ -5,6 +5,7 @@ from openai import OpenAI
 from google import genai
 from google.genai import types
 from transformers import AutoModelForCausalLM, AutoTokenizer
+from collections import Counter
 
 def build_judge(model_name, implementation="api"):
     assert implementation in ['api', 'huggingface']
@@ -708,4 +709,4 @@ def eval_op_chip(response, question, src_states, model_path, tokenizer, judge_im
                 return False
             states[cup].remove(chip)
         
-    return states[tgt_cup] == tgt_chips
+    return Counter(states[tgt_cup]) == Counter(tgt_chips)
