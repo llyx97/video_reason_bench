@@ -11,6 +11,8 @@
   <a href="https://huggingface.co/datasets/lyx97/reasoning_videos"><img src="https://img.shields.io/badge/🤗-Dataset-yellow" height="23"></a>
 </p>
 
+## News
+**[2025-12]** 🎉🎉🎉 Excited to see [Seed1.8](https://seed.bytedance.com/en/seed1_8) adopt VideoReasonBench for evaluating video reasoning! Huge congratulations to the Seed team on the impressive 30+ point gain over Seed1.5-VL.
 
 ## ✨ Highlights
 <!-- <figure>
